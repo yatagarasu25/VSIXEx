@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace VSIXEx.Attributes
 {
@@ -15,6 +16,11 @@ namespace VSIXEx.Attributes
 		public GuidSymbolAttribute(string name = null)
 		{
 			Name = name;
+		}
+
+		public string GetName(FieldInfo field)
+		{
+			return Name != null ? Name : field.Name;
 		}
 	}
 }

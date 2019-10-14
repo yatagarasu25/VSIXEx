@@ -3,11 +3,11 @@
 namespace VSIXEx.Attributes
 {
 	[AttributeUsage(AttributeTargets.Enum)]
-	public class IDSymbolAttribute : Attribute
+	public class IDSymbolsAttribute : Attribute
 	{
 		public Guid Guid;
 
-		public IDSymbolAttribute(string guid)
+		public IDSymbolsAttribute(string guid)
 		{
 			Guid = new Guid(guid);
 		}

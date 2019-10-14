@@ -30,7 +30,7 @@ namespace VSIXEx
 				if (commandSet != null)
 				{
 					var allMethods =
-						from method in commandSet.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+						from method in (cs.Type as Type).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 						select new {
 							Method = method,
 							Attribute = method.GetAttribute<BaseCommandAttribute>()

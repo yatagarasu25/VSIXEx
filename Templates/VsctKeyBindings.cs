@@ -12,19 +12,15 @@ namespace VSIXEx.Templates
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
-    using System.Reflection;
-    using SystemEx;
-    using VSIXEx;
-    using VSIXEx.Attributes;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+    #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class VsctSymbols : VsctSymbolsBase
+    public partial class VsctKeyBindings : VsctKeyBindingsBase
     {
 #line hidden
         /// <summary>
@@ -32,92 +28,41 @@ namespace VSIXEx.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("  <Symbols>\r\n");
+            this.Write("  <KeyBindings>\r\n");
             
-            #line 14 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 8 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 
 try
 {
-	foreach (dynamic symbol in this.assembly.EnumCommandIDs())
+	foreach (dynamic symbol in this.assembly.EnumKeyBindings())
 	{
-		if (!(symbol.ids as IEnumerable<dynamic>).Any())
-		{
             
             #line default
             #line hidden
-            this.Write("    <GuidSymbol name=\"");
+            this.Write("    <KeyBinding guid=\"");
             
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.name));
-            
-            #line default
-            #line hidden
-            this.Write("\" value=\"");
-            
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid.ToString("B")));
+            #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid));
             
             #line default
             #line hidden
-            this.Write("\" />\r\n");
+            this.Write("\" id=\"");
             
-            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-		}
-		else
-		{
+            #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.id));
             
             #line default
             #line hidden
-            this.Write("    <GuidSymbol name=\"");
+            this.Write("\" editor=\"guidVSStd97\" key1=\"");
             
-            #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.name));
-            
-            #line default
-            #line hidden
-            this.Write("\" value=\"");
-            
-            #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid.ToString("B")));
+            #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.key.Key1));
             
             #line default
             #line hidden
-            this.Write("\">\r\n");
+            this.Write("\" mod1=\"ALT\"/>\r\n");
             
-            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-			foreach (dynamic id in symbol.ids)
-			{
-				foreach (dynamic item in (id.Type as Type).EnumEnumValues())
-				{
-            
-            #line default
-            #line hidden
-            this.Write("        <IDSymbol name=\"");
-            
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\" value=\"0x");
-            
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Value.ToString("X")));
-            
-            #line default
-            #line hidden
-            this.Write("\" />\r\n");
-            
-            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-				}
-			}
-            
-            #line default
-            #line hidden
-            this.Write("    </GuidSymbol>\r\n");
-            
-            #line 34 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-		}
+            #line 14 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 	}
 }
 catch (Exception e)
@@ -127,23 +72,23 @@ catch (Exception e)
             #line hidden
             this.Write("<!-- ");
             
-            #line 39 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 18 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(e.Message));
             
             #line default
             #line hidden
             this.Write(" -->\r\n");
             
-            #line 40 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 }
             
             #line default
             #line hidden
-            this.Write("  </Symbols>");
+            this.Write("  </KeyBindings>");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+        #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 
 private global::System.Reflection.Assembly _assemblyField;
 
@@ -198,7 +143,7 @@ if ((assemblyValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class VsctSymbolsBase
+    public class VsctKeyBindingsBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

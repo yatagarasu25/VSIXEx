@@ -91,17 +91,24 @@
     <Compile Include="Attributes\CommandExecuteAttribute.cs" />
     <Compile Include="Attributes\CommandSetAttribute.cs" />
     <Compile Include="Attributes\GuidSymbolAttribute.cs" />
-    <Compile Include="Attributes\IDSymbolAttribute.cs" />
+    <Compile Include="Attributes\IDSymbolsAttribute.cs" />
+    <Compile Include="Attributes\KeyBindingAttribute.cs" />
     <Compile Include="BaseCommand.cs" />
     <Compile Include="BaseAsyncPackage.cs" />
     <Compile Include="PackageEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\VsctKeyBindings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VsctKeyBindings.tt</DependentUpon>
+    </Compile>
     <Compile Include="Templates\VsctSymbols.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VsctSymbols.t4</DependentUpon>
+      <DependentUpon>VsctSymbols.tt</DependentUpon>
     </Compile>
     <Compile Include="VSCTEx.cs" />
+    <Compile Include="VSCTModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -114,10 +121,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\VsctSymbols.t4">
+    <Content Include="Templates\VsctKeyBindings.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VsctKeyBindings.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\VsctSymbols.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VsctSymbols.cs</LastGenOutput>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

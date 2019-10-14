@@ -1,0 +1,41 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ assembly name="$(TargetDir)SystemEx.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="SystemEx" #>
+<#@ import namespace="VSIXEx" #>
+<#@ import namespace="VSIXEx.Attributes" #>
+<#@ parameter name="assembly" type="System.Reflection.Assembly" #>
+  <Symbols>
+<#
+try
+{
+	foreach (dynamic symbol in this.assembly.EnumCommandIDs())
+	{
+		if (!(symbol.ids as IEnumerable<dynamic>).Any())
+		{#>
+    <GuidSymbol name="<#= symbol.name #>" value="<#= symbol.guid.ToString("B") #>" />
+<#		}
+		else
+		{#>
+    <GuidSymbol name="<#= symbol.name #>" value="<#= symbol.guid.ToString("B") #>">
+<#			foreach (dynamic id in symbol.ids)
+			{
+				foreach (dynamic item in (id.Type as Type).EnumEnumValues())
+				{#>
+        <IDSymbol name="<#= item.Name #>" value="0x<#= item.Value.ToString("X") #>" />
+<#				}
+			}#>
+    </GuidSymbol>
+<#		}
+	}
+}
+catch (Exception e)
+{#>
+<!-- <#= e.Message #> -->
+<#}#>
+  </Symbols>
