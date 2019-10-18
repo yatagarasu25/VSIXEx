@@ -28,7 +28,7 @@ namespace VSIXEx
 		public static IEnumerable<dynamic> EnumKeyBindings(this Assembly assembly)
 		{
 			var guidByName = assembly.EnumGuidSymbols().ToDictionary(i => i.Guid);
-			foreach (dynamic cs in assembly.EnumCommandSets())
+			foreach (var cs in assembly.EnumCommandSets())
 			{
 				var methods = from method in (cs.Type as Type).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 					select new
@@ -42,7 +42,7 @@ namespace VSIXEx
 							where m.CommandExecuteAttribute != null && m.KeyBindingAttribute != null
 							select m)
 				{
-					string guid = guidByName[cs.Attribute.Guid].name;
+					string guid = guidByName[cs.Attribute.Guid].Name;
 					int id = method.CommandExecuteAttribute.CommandId;
 					var key = method.KeyBindingAttribute;
 					yield return new
