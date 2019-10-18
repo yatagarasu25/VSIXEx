@@ -16,6 +16,7 @@ namespace VSIXEx
 	{
 		public Type Type;
 		public CommandSetAttribute Attribute;
+		public MethodAttributePair<BaseCommandAttribute> ExecuteCommand;
 		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
 		public IEnumerable<dynamic> KeyBindings;
 	}
@@ -36,6 +37,7 @@ namespace VSIXEx
 				{
 					Type = commandSet.Type,
 					Attribute = commandSet.Attribute,
+					ExecuteCommand = commands.Where(c => c.Attribute is CommandExecuteAttribute).Single(),
 					Commands = commands,
 					KeyBindings = commands
 						.Where(c => c.Attribute is CommandExecuteAttribute)
@@ -50,30 +52,22 @@ namespace VSIXEx
 			{
 				foreach (var command in cs.EnumCommands())
 				{
-					var executeMethod =
-						(from method in command.Commands as IEnumerable<dynamic>
-						where method.Attribute is CommandExecuteAttribute
-						select method).SingleOrDefault();
+					var commandSet = 
+						Activator.CreateInstance(cs.Type
+							, BindingFlags.NonPublic | BindingFlags.Instance, null
+							, new object[] { package, commandService }
+							, null)
+						as BaseCommand;
 
-					if (executeMethod != null)
-					{
-						var commandSet = 
-							Activator.CreateInstance(cs.Type
-								, BindingFlags.NonPublic | BindingFlags.Instance, null
-								, new object[] { package, commandService }
-								, null)
-							as BaseCommand;
-
-						var menuCommandID = new CommandID(cs.Attribute.Guid, executeMethod.Attribute.CommandId);
-						var menuCommand = new OleMenuCommand((s, e) => 
-							ThreadHelper.JoinableTaskFactory.Run(() =>
-								executeMethod.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
-							, menuCommandID);
-						/*
-						menuCommand.BeforeQueryStatus += MenuCommand_BeforeQueryStatus;
-						*/
-						commandService.AddCommand(menuCommand);
-					}
+					var menuCommandID = new CommandID(cs.Attribute.Guid, command.ExecuteCommand.Attribute.CommandId);
+					var menuCommand = new OleMenuCommand((s, e) => 
+						ThreadHelper.JoinableTaskFactory.Run(() =>
+							command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
+						, menuCommandID);
+					/*
+					menuCommand.BeforeQueryStatus += MenuCommand_BeforeQueryStatus;
+					*/
+					commandService.AddCommand(menuCommand);
 				}
 			}
 		}
