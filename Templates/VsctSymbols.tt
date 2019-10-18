@@ -9,12 +9,12 @@
 <#@ import namespace="SystemEx" #>
 <#@ import namespace="VSIXEx" #>
 <#@ import namespace="VSIXEx.Attributes" #>
-<#@ parameter name="assembly" type="System.Reflection.Assembly" #>
+<#@ parameter name="model" type="VSIXEx.VSCTModel" #>
   <Symbols>
 <#
 try
 {
-	foreach (var symbol in this.assembly.EnumCommandIDs())
+	foreach (var symbol in this.model.EnumCommandIDs())
 	{
 		if (!symbol.IDs.Any())
 		{#>
@@ -24,12 +24,9 @@ try
 		{#>
     <GuidSymbol name="<#= symbol.Name #>" value="<#= symbol.Guid.ToString("B") #>">
 <#			foreach (var id in symbol.IDs)
-			{
-				foreach (var item in id.Type.EnumEnumValues<int>())
-				{#>
-        <IDSymbol name="<#= item.Name #>" value="0x<#= item.Value.ToString("X") #>" />
-<#				}
-			}#>
+			{#>
+        <IDSymbol name="<#= id.Name #>" value="0x<#= id.Value.ToString("X") #>" />
+<#			}#>
     </GuidSymbol>
 <#		}
 	}

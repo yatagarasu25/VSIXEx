@@ -38,7 +38,7 @@ namespace VSIXEx.Templates
 
 try
 {
-	foreach (var symbol in this.assembly.EnumCommandIDs())
+	foreach (var symbol in this.model.EnumCommandIDs())
 	{
 		if (!symbol.IDs.Any())
 		{
@@ -87,36 +87,33 @@ try
             #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
 			foreach (var id in symbol.IDs)
 			{
-				foreach (var item in id.Type.EnumEnumValues<int>())
-				{
             
             #line default
             #line hidden
             this.Write("        <IDSymbol name=\"");
             
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
+            #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(id.Name));
             
             #line default
             #line hidden
             this.Write("\" value=\"0x");
             
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Value.ToString("X")));
+            #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(id.Value.ToString("X")));
             
             #line default
             #line hidden
             this.Write("\" />\r\n");
             
-            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-				}
+            #line 29 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
 			}
             
             #line default
             #line hidden
             this.Write("    </GuidSymbol>\r\n");
             
-            #line 34 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
 		}
 	}
 }
@@ -127,14 +124,14 @@ catch (Exception e)
             #line hidden
             this.Write("<!-- ");
             
-            #line 39 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 36 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(e.Message));
             
             #line default
             #line hidden
             this.Write(" -->\r\n");
             
-            #line 40 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 37 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
 }
             
             #line default
@@ -145,16 +142,16 @@ catch (Exception e)
         
         #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
 
-private global::System.Reflection.Assembly _assemblyField;
+private global::VSIXEx.VSCTModel _modelField;
 
 /// <summary>
-/// Access the assembly parameter of the template.
+/// Access the model parameter of the template.
 /// </summary>
-private global::System.Reflection.Assembly assembly
+private global::VSIXEx.VSCTModel model
 {
     get
     {
-        return this._assemblyField;
+        return this._modelField;
     }
 }
 
@@ -166,18 +163,18 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool assemblyValueAcquired = false;
-if (this.Session.ContainsKey("assembly"))
+bool modelValueAcquired = false;
+if (this.Session.ContainsKey("model"))
 {
-    this._assemblyField = ((global::System.Reflection.Assembly)(this.Session["assembly"]));
-    assemblyValueAcquired = true;
+    this._modelField = ((global::VSIXEx.VSCTModel)(this.Session["model"]));
+    modelValueAcquired = true;
 }
-if ((assemblyValueAcquired == false))
+if ((modelValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("assembly");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("model");
     if ((data != null))
     {
-        this._assemblyField = ((global::System.Reflection.Assembly)(data));
+        this._modelField = ((global::VSIXEx.VSCTModel)(data));
     }
 }
 

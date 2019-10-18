@@ -17,6 +17,7 @@ namespace VSIXEx
 		public Type Type;
 		public CommandSetAttribute Attribute;
 		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
+		public IEnumerable<dynamic> KeyBindings;
 	}
 
 	public static class PackageEx
@@ -36,9 +37,9 @@ namespace VSIXEx
 					Type = commandSet.Type,
 					Attribute = commandSet.Attribute,
 					Commands = commands,
-					//KetBindings =
-					//	from method in commands
-					//	where  
+					KeyBindings = commands
+						.Where(c => c.Attribute is CommandExecuteAttribute)
+						.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>().Select(kb => new { c.Method, c.Attribute, KeyBindingAttribute = kb }))
 				};
 			}
 		}

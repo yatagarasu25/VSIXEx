@@ -34,7 +34,7 @@ namespace VSIXEx.Templates
 
 try
 {
-	foreach (dynamic symbol in this.assembly.EnumKeyBindings())
+	foreach (var kb in this.model.EnumKeyBindings())
 	{
             
             #line default
@@ -42,25 +42,32 @@ try
             this.Write("    <KeyBinding guid=\"");
             
             #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid));
+            this.Write(this.ToStringHelper.ToStringWithCulture(kb.Guid));
             
             #line default
             #line hidden
             this.Write("\" id=\"");
             
             #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.id));
+            this.Write(this.ToStringHelper.ToStringWithCulture(kb.Id));
             
             #line default
             #line hidden
-            this.Write("\" editor=\"guidVSStd97\" key1=\"");
+            this.Write("\" editor=\"");
             
             #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.key.Key1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(kb.Editor));
             
             #line default
             #line hidden
-            this.Write("\" mod1=\"ALT\"/>\r\n");
+            this.Write("\" ");
+            
+            #line 13 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(kb.Attribute));
+            
+            #line default
+            #line hidden
+            this.Write(" />\r\n");
             
             #line 14 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 	}
@@ -90,16 +97,16 @@ catch (Exception e)
         
         #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctKeyBindings.tt"
 
-private global::System.Reflection.Assembly _assemblyField;
+private global::VSIXEx.VSCTModel _modelField;
 
 /// <summary>
-/// Access the assembly parameter of the template.
+/// Access the model parameter of the template.
 /// </summary>
-private global::System.Reflection.Assembly assembly
+private global::VSIXEx.VSCTModel model
 {
     get
     {
-        return this._assemblyField;
+        return this._modelField;
     }
 }
 
@@ -111,18 +118,18 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool assemblyValueAcquired = false;
-if (this.Session.ContainsKey("assembly"))
+bool modelValueAcquired = false;
+if (this.Session.ContainsKey("model"))
 {
-    this._assemblyField = ((global::System.Reflection.Assembly)(this.Session["assembly"]));
-    assemblyValueAcquired = true;
+    this._modelField = ((global::VSIXEx.VSCTModel)(this.Session["model"]));
+    modelValueAcquired = true;
 }
-if ((assemblyValueAcquired == false))
+if ((modelValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("assembly");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("model");
     if ((data != null))
     {
-        this._assemblyField = ((global::System.Reflection.Assembly)(data));
+        this._modelField = ((global::VSIXEx.VSCTModel)(data));
     }
 }
 

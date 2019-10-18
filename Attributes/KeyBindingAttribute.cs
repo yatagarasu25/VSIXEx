@@ -1,4 +1,5 @@
 ﻿using System;
+using SystemEx;
 
 namespace VSIXEx.Attributes
 {
@@ -16,6 +17,15 @@ namespace VSIXEx.Attributes
 			Mod1 = mod1;
 			Key2 = key2;
 			Mod2 = mod2;
+		}
+
+		public override string ToString()
+		{
+			string result = "key1=\"{0}\"".format(Key1);
+			if (Mod1 != null) result += " mod1=\"{0}\"".format(Mod1);
+			if (Key2 != null) result += " key2=\"{0}\"".format(Key2);
+			if (Mod2 != null) result += " mod2=\"{0}\"".format(Mod2);
+			return result;
 		}
 	}
 }

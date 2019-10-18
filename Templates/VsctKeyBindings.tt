@@ -3,14 +3,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ parameter name="assembly" type="System.Reflection.Assembly" #>
+<#@ parameter name="model" type="VSIXEx.VSCTModel" #>
   <KeyBindings>
 <#
 try
 {
-	foreach (dynamic symbol in this.assembly.EnumKeyBindings())
+	foreach (var kb in this.model.EnumKeyBindings())
 	{#>
-    <KeyBinding guid="<#= symbol.guid #>" id="<#= symbol.id #>" editor="guidVSStd97" key1="<#= symbol.key.Key1 #>" mod1="ALT"/>
+    <KeyBinding guid="<#= kb.Guid #>" id="<#= kb.Id #>" editor="<#= kb.Editor #>" <#= kb.Attribute #> />
 <#	}
 }
 catch (Exception e)
