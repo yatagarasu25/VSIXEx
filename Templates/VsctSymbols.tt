@@ -14,18 +14,18 @@
 <#
 try
 {
-	foreach (dynamic symbol in this.assembly.EnumCommandIDs())
+	foreach (var symbol in this.assembly.EnumCommandIDs())
 	{
-		if (!(symbol.ids as IEnumerable<dynamic>).Any())
+		if (!symbol.IDs.Any())
 		{#>
-    <GuidSymbol name="<#= symbol.name #>" value="<#= symbol.guid.ToString("B") #>" />
+    <GuidSymbol name="<#= symbol.Name #>" value="<#= symbol.Guid.ToString("B") #>" />
 <#		}
 		else
 		{#>
-    <GuidSymbol name="<#= symbol.name #>" value="<#= symbol.guid.ToString("B") #>">
-<#			foreach (dynamic id in symbol.ids)
+    <GuidSymbol name="<#= symbol.Name #>" value="<#= symbol.Guid.ToString("B") #>">
+<#			foreach (var id in symbol.IDs)
 			{
-				foreach (dynamic item in (id.Type as Type).EnumEnumValues())
+				foreach (var item in id.Type.EnumEnumValues<int>())
 				{#>
         <IDSymbol name="<#= item.Name #>" value="0x<#= item.Value.ToString("X") #>" />
 <#				}

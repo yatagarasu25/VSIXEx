@@ -5,11 +5,11 @@ namespace VSIXEx.Attributes
 	[AttributeUsage(AttributeTargets.Class)]
 	public class CommandSetAttribute : Attribute
 	{
-		public Guid CommandSetId;
+		public Guid Guid;
 
-		public CommandSetAttribute(string commandSetId)
+		public CommandSetAttribute(string guid)
 		{
-			CommandSetId = new Guid(commandSetId);
+			Guid = new Guid(guid);
 		}
 	}
 }

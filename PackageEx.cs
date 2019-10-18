@@ -12,54 +12,66 @@ using Task = System.Threading.Tasks.Task;
 
 namespace VSIXEx
 {
+	public struct CommandType
+	{
+		public Type Type;
+		public CommandSetAttribute Attribute;
+		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
+	}
+
 	public static class PackageEx
 	{
-		public static IEnumerable<dynamic> EnumCommandSets(this Assembly assembly) => assembly.EnumTypesWithAttribute<CommandSetAttribute>();
-
-		public static void RegisterCommandSets(this IEnumerable<dynamic> commands, AsyncPackage package, OleMenuCommandService commandService)
+		public static IEnumerable<TypeAttributePair<CommandSetAttribute>> EnumCommandSets(this Assembly assembly) => assembly.EnumTypesWithAttribute<CommandSetAttribute>();
+		public static IEnumerable<CommandType> EnumCommands(this TypeAttributePair<CommandSetAttribute> commandSet)
 		{
-			foreach (var cs in commands)
+			var commandMethodGroups =
+				from method in commandSet.Type.EnumMethodsWithAttribute<BaseCommandAttribute>()
+				where method.Attribute != null
+				group method by method.Attribute.CommandId;
+
+			foreach (var commands in commandMethodGroups)
 			{
-				var commandSet = 
-					Activator.CreateInstance(cs.Type
-						, BindingFlags.NonPublic | BindingFlags.Instance, null
-						, new object[] { package, commandService }
-						, null)
-					as BaseCommand;
-
-				if (commandSet != null)
+				yield return new CommandType
 				{
-					var allMethods =
-						from method in (cs.Type as Type).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-						select new {
-							Method = method,
-							Attribute = method.GetAttribute<BaseCommandAttribute>()
-						};
+					Type = commandSet.Type,
+					Attribute = commandSet.Attribute,
+					Commands = commands,
+					//KetBindings =
+					//	from method in commands
+					//	where  
+				};
+			}
+		}
 
-					var commandMethods =
-						from method in allMethods
-						where method.Attribute != null
-						group method by method.Attribute.CommandId;
+		public static void RegisterCommandSets(this IEnumerable<TypeAttributePair<CommandSetAttribute>> commandSets, AsyncPackage package, OleMenuCommandService commandService)
+		{
+			foreach (var cs in commandSets)
+			{
+				foreach (var command in cs.EnumCommands())
+				{
+					var executeMethod =
+						(from method in command.Commands as IEnumerable<dynamic>
+						where method.Attribute is CommandExecuteAttribute
+						select method).SingleOrDefault();
 
-					foreach (var command in commandMethods)
+					if (executeMethod != null)
 					{
-						var executeMethod =
-							(from method in command
-							where method.Attribute is CommandExecuteAttribute
-							select method).SingleOrDefault();
+						var commandSet = 
+							Activator.CreateInstance(cs.Type
+								, BindingFlags.NonPublic | BindingFlags.Instance, null
+								, new object[] { package, commandService }
+								, null)
+							as BaseCommand;
 
-						if (executeMethod != null)
-						{
-							var menuCommandID = new CommandID(cs.Attribute.CommandSetId, executeMethod.Attribute.CommandId);
-							var menuCommand = new OleMenuCommand((s, e) => 
-								ThreadHelper.JoinableTaskFactory.Run(() =>
-									executeMethod.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
-								, menuCommandID);
-							/*
-							menuCommand.BeforeQueryStatus += MenuCommand_BeforeQueryStatus;
-							*/
-							commandService.AddCommand(menuCommand);
-						}
+						var menuCommandID = new CommandID(cs.Attribute.Guid, executeMethod.Attribute.CommandId);
+						var menuCommand = new OleMenuCommand((s, e) => 
+							ThreadHelper.JoinableTaskFactory.Run(() =>
+								executeMethod.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
+							, menuCommandID);
+						/*
+						menuCommand.BeforeQueryStatus += MenuCommand_BeforeQueryStatus;
+						*/
+						commandService.AddCommand(menuCommand);
 					}
 				}
 			}

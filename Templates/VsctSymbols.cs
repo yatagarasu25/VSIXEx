@@ -38,9 +38,9 @@ namespace VSIXEx.Templates
 
 try
 {
-	foreach (dynamic symbol in this.assembly.EnumCommandIDs())
+	foreach (var symbol in this.assembly.EnumCommandIDs())
 	{
-		if (!(symbol.ids as IEnumerable<dynamic>).Any())
+		if (!symbol.IDs.Any())
 		{
             
             #line default
@@ -48,14 +48,14 @@ try
             this.Write("    <GuidSymbol name=\"");
             
             #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Name));
             
             #line default
             #line hidden
             this.Write("\" value=\"");
             
             #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid.ToString("B")));
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Guid.ToString("B")));
             
             #line default
             #line hidden
@@ -71,23 +71,23 @@ try
             this.Write("    <GuidSymbol name=\"");
             
             #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Name));
             
             #line default
             #line hidden
             this.Write("\" value=\"");
             
             #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.guid.ToString("B")));
+            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Guid.ToString("B")));
             
             #line default
             #line hidden
             this.Write("\">\r\n");
             
             #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-			foreach (dynamic id in symbol.ids)
+			foreach (var id in symbol.IDs)
 			{
-				foreach (dynamic item in (id.Type as Type).EnumEnumValues())
+				foreach (var item in id.Type.EnumEnumValues<int>())
 				{
             
             #line default
