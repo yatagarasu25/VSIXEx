@@ -32,6 +32,13 @@ namespace VSIXEx
 		public KeyBindingAttribute Attribute;
 	}
 
+	public struct CommandBitmapType
+	{
+		public string Guid;
+		public string Href;
+		public IEnumerable<EnumNameValuePair<int>> IDs;
+	}
+
 	public static class VSCTEx
 	{
 		public static IEnumerable<GuidSymbolType> EnumGuidSymbols(this Assembly assembly)
@@ -52,18 +59,17 @@ namespace VSIXEx
 
 		public static string GenerateKeyBindings(this VSCTModel model)
 		{
-			return Template.TransformToText<VsctKeyBindings>(new
-			{
-				model
-			}.ToExpando());
+			return Template.TransformToText<VsctKeyBindings>(new { model }.ToExpando());
 		}
 
 		public static string GenerateSymbols(this VSCTModel model)
 		{
-			return Template.TransformToText<VsctSymbols>(new
-			{
-				model
-			}.ToExpando());
+			return Template.TransformToText<VsctSymbols>(new { model }.ToExpando());
+		}
+
+		public static string GenerateCommandBitmaps(this VSCTModel model)
+		{
+			return Template.TransformToText<VsctCommandsBitmaps>(new { model }.ToExpando());
 		}
 	}
 }

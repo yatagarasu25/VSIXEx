@@ -91,9 +91,10 @@
     <Compile Include="Attributes\CommandExecuteAttribute.cs" />
     <Compile Include="Attributes\CommandSetAttribute.cs" />
     <Compile Include="Attributes\GuidSymbolAttribute.cs" />
+    <Compile Include="Attributes\BitmapAttribute.cs" />
     <Compile Include="Attributes\IDSymbolsAttribute.cs" />
     <Compile Include="Attributes\KeyBindingAttribute.cs" />
-    <Compile Include="BaseCommand.cs" />
+    <Compile Include="BaseCommandSet.cs" />
     <Compile Include="BaseAsyncPackage.cs" />
     <Compile Include="PackageEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +102,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VsctKeyBindings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\VsctCommandsBitmaps.cs">
+      <DependentUpon>VsctCommandsBitmaps.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Templates\VsctSymbols.cs">
       <AutoGen>True</AutoGen>
@@ -124,6 +130,10 @@
     <Content Include="Templates\VsctKeyBindings.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VsctKeyBindings.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\VsctCommandsBitmaps.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VsctCommandsBitmaps.cs</LastGenOutput>
     </Content>
     <Content Include="Templates\VsctSymbols.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

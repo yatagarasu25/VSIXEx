@@ -57,7 +57,7 @@ namespace VSIXEx
 							, BindingFlags.NonPublic | BindingFlags.Instance, null
 							, new object[] { package, commandService }
 							, null)
-						as BaseCommand;
+						as BaseCommandSet;
 
 					var menuCommandID = new CommandID(cs.Attribute.Guid, command.ExecuteCommand.Attribute.CommandId);
 					var menuCommand = new OleMenuCommand((s, e) => 
