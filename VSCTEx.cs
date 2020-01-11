@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using SystemEx;
 using VSIXEx.Attributes;
@@ -10,6 +9,16 @@ using VSIXEx.Templates;
 
 namespace VSIXEx
 {
+	public enum MenuType
+	{
+		Toolbar
+	}
+
+	public enum MenuCommandFlag
+	{
+		DefaultDocked
+	}
+
 	public struct GuidSymbolType
 	{
 		public Guid Guid;
@@ -30,6 +39,12 @@ namespace VSIXEx
 		public string Editor;
 
 		public KeyBindingAttribute Attribute;
+	}
+
+	public struct CommandMenuType
+	{
+		public string Guid;
+		public MenuType Type;
 	}
 
 	public struct CommandBitmapType
@@ -65,6 +80,11 @@ namespace VSIXEx
 		public static string GenerateSymbols(this VSCTModel model)
 		{
 			return Template.TransformToText<VsctSymbols>(new { model }.ToExpando());
+		}
+
+		public static string GenerateCommandMenus(this VSCTModel model)
+		{
+			return Template.TransformToText<VsctCommandsMenus>(new { model }.ToExpando());
 		}
 
 		public static string GenerateCommandBitmaps(this VSCTModel model)

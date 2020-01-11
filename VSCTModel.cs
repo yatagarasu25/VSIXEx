@@ -12,6 +12,7 @@ namespace VSIXEx
 		protected Dictionary<Guid, GuidSymbolType> GuidSymbols;
 		protected Dictionary<Guid, Dictionary<int, EnumNameValuePair<int>>> CommandIDs;
 		protected Dictionary<Guid, IEnumerable<CommandType>> CommandSets;
+		protected IEnumerable<CommandMenuType> CommandMenus;
 		protected IEnumerable<CommandBitmapType> CommandBitmaps;
 
 		public VSCTModel(Assembly assembly)
@@ -25,6 +26,10 @@ namespace VSIXEx
 				.SelectMany(ca => ca.EnumCommands())
 				.GroupBy(i => i.Attribute.Guid)
 				.ToDictionary(i => i.Key, i => i as IEnumerable<CommandType>);
+			CommandMenus = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
+				.Select(id => new { id.Attribute.Guid, IDs = id.Type.EnumEnumValuesWithAttribute<int, BaseMenuAttribute>() })
+				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Menu = menu.Attribute }))
+				.Select(id => new CommandMenuType { Guid = GuidSymbols[id.Guid].Name, Type = id.Menu.Type });
 			CommandBitmaps = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Type, id.Attribute, BitmapAttribute = id.Type.GetAttribute<BitmapAttribute>() })
 				.Where(id => id.BitmapAttribute != null)
@@ -53,6 +58,7 @@ namespace VSIXEx
 				}));
 		}
 
+		public IEnumerable<CommandMenuType> EnumCommandMenus() => CommandMenus;
 		public IEnumerable<CommandBitmapType> EnumCommandBitmaps() => CommandBitmaps;
 	}
 }
