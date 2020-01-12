@@ -10,7 +10,6 @@
 <#@ import namespace="VSIXEx" #>
 <#@ import namespace="VSIXEx.Attributes" #>
 <#@ parameter name="model" type="VSIXEx.VSCTModel" #>
-    <!--
     <Buttons>
 <#
 try
@@ -21,7 +20,7 @@ try
         <Parent guid="<#= button.Parent.Guid #>" id="<#= button.Parent.Id #>" />
         <Icon guid="<#= button.Icon.Guid #>" id="<#= button.Icon.Id #>" />
         <Strings>
-          <ButtonText>Add/Edit Unreal Engine Specifier...</ButtonText>
+          <ButtonText><#= button.ButtonText #></ButtonText>
         </Strings>
       </Button>
 <#	}
@@ -31,4 +30,3 @@ catch (Exception e)
 <!-- <#= e.Message #> -->
 <#}#>
     </Buttons>
-    -->
