@@ -13,6 +13,7 @@ namespace VSIXEx
 		protected Dictionary<Guid, Dictionary<int, EnumNameValuePair<int>>> CommandIDs;
 		protected Dictionary<Guid, IEnumerable<CommandType>> CommandSets;
 		protected IEnumerable<CommandMenuType> CommandMenus;
+		protected IEnumerable<CommandButtonType> CommandButtons;
 		protected IEnumerable<CommandBitmapType> CommandBitmaps;
 
 		public VSCTModel(Assembly assembly)

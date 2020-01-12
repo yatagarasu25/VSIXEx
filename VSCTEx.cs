@@ -19,6 +19,11 @@ namespace VSIXEx
 		DefaultDocked
 	}
 
+	public enum ButtonType
+	{
+		Button
+	}
+
 	public struct GuidSymbolType
 	{
 		public Guid Guid;
@@ -41,6 +46,18 @@ namespace VSIXEx
 		public KeyBindingAttribute Attribute;
 	}
 
+	public struct CommandParentType
+	{
+		public string Guid;
+		public string Id;
+	}
+
+	public struct CommandIconType
+	{
+		public string Guid;
+		public string Id;
+	}
+
 	public struct CommandMenuType
 	{
 		public string Guid;
@@ -49,6 +66,17 @@ namespace VSIXEx
 		public MenuCommandFlag CommandFlag;
 		public string ButtonText;
 		public string CommandName;
+	}
+
+	public struct CommandButtonType
+	{
+		public string Guid;
+		public string Id;
+		public int priority;
+		public ButtonType Type;
+		public CommandParentType Parent;
+		public CommandIconType Icon;
+		public string ButtonText;
 	}
 
 	public struct CommandBitmapType
@@ -89,6 +117,11 @@ namespace VSIXEx
 		public static string GenerateCommandMenus(this VSCTModel model)
 		{
 			return Template.TransformToText<VsctCommandsMenus>(new { model }.ToExpando());
+		}
+
+		public static string GenerateCommandButtons(this VSCTModel model)
+		{
+			return Template.TransformToText<VsctCommandsButtons>(new { model }.ToExpando());
 		}
 
 		public static string GenerateCommandBitmaps(this VSCTModel model)

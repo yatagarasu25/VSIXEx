@@ -101,6 +101,11 @@
     <Compile Include="BaseAsyncPackage.cs" />
     <Compile Include="PackageEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\VsctCommandsButtons.cs">
+      <DependentUpon>VsctCommandsButtons.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Templates\VsctCommandsMenus.cs">
       <DependentUpon>VsctCommandsMenus.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -135,6 +140,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\VsctCommandsButtons.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VsctCommandsButtons.cs</LastGenOutput>
+    </Content>
     <Content Include="Templates\VsctCommandsMenus.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VsctCommandsMenus.cs</LastGenOutput>
