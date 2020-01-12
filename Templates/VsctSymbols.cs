@@ -90,7 +90,7 @@ try
             
             #line default
             #line hidden
-            this.Write("        <IDSymbol name=\"");
+            this.Write("      <IDSymbol name=\"");
             
             #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id.Name));

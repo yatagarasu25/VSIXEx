@@ -38,54 +38,69 @@ namespace VSIXEx.Templates
 
 try
 {
-	foreach (var menu in this.model.EnumCommandMenus())
+	foreach (var button in this.model.EnumCommandButtons())
 	{
             
             #line default
             #line hidden
-            this.Write("      <Menu guid=\"");
+            this.Write("      <Button guid=\"");
             
             #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.Guid));
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Guid));
             
             #line default
             #line hidden
             this.Write("\" id=\"");
             
             #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.Id));
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Id));
+            
+            #line default
+            #line hidden
+            this.Write("\" priority=\"");
+            
+            #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Priority.ToString("X")));
             
             #line default
             #line hidden
             this.Write("\" type=\"");
             
             #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.Type.ToString()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Type.ToString()));
             
             #line default
             #line hidden
-            this.Write("\">\r\n        <CommandFlag>");
+            this.Write("\">\r\n        <Parent guid=\"");
             
             #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.CommandFlag.ToString()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Parent.Guid));
             
             #line default
             #line hidden
-            this.Write("</CommandFlag>\r\n        <Strings>\r\n          <ButtonText>");
+            this.Write("\" id=\"");
             
-            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.ButtonText));
-            
-            #line default
-            #line hidden
-            this.Write("</ButtonText>\r\n          <CommandName>");
-            
-            #line 24 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(menu.CommandName));
+            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Parent.Id));
             
             #line default
             #line hidden
-            this.Write("</CommandName>\r\n        </Strings>\r\n      </Menu>\r\n");
+            this.Write("\" />\r\n        <Icon guid=\"");
+            
+            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Icon.Guid));
+            
+            #line default
+            #line hidden
+            this.Write("\" id=\"");
+            
+            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Icon.Id));
+            
+            #line default
+            #line hidden
+            this.Write("\" />\r\n        <Strings>\r\n          <ButtonText>Add/Edit Unreal Engine Specifier.." +
+                    ".</ButtonText>\r\n        </Strings>\r\n      </Button>\r\n");
             
             #line 27 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
 	}

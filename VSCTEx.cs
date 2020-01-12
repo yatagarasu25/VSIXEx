@@ -72,7 +72,7 @@ namespace VSIXEx
 	{
 		public string Guid;
 		public string Id;
-		public int priority;
+		public int Priority;
 		public ButtonType Type;
 		public CommandParentType Parent;
 		public CommandIconType Icon;

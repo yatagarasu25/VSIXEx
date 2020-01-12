@@ -15,15 +15,15 @@
 <#
 try
 {
-	foreach (var menu in this.model.EnumCommandMenus())
+	foreach (var button in this.model.EnumCommandButtons())
 	{#>
-      <Menu guid="<#= menu.Guid #>" id="<#= menu.Id #>" type="<#= menu.Type.ToString() #>">
-        <CommandFlag><#= menu.CommandFlag.ToString() #></CommandFlag>
+      <Button guid="<#= button.Guid #>" id="<#= button.Id #>" priority="<#= button.Priority.ToString("X") #>" type="<#= button.Type.ToString() #>">
+        <Parent guid="<#= button.Parent.Guid #>" id="<#= button.Parent.Id #>" />
+        <Icon guid="<#= button.Icon.Guid #>" id="<#= button.Icon.Id #>" />
         <Strings>
-          <ButtonText><#= menu.ButtonText #></ButtonText>
-          <CommandName><#= menu.CommandName #></CommandName>
+          <ButtonText>Add/Edit Unreal Engine Specifier...</ButtonText>
         </Strings>
-      </Menu>
+      </Button>
 <#	}
 }
 catch (Exception e)

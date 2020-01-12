@@ -14,11 +14,26 @@ namespace VSIXEx
 {
 	public struct CommandType
 	{
+		public struct KB
+		{
+			public MethodInfo Method;
+			public BaseCommandAttribute Attribute;
+			public KeyBindingAttribute KeyBindingAttribute;
+		}
+
+		public struct B
+		{
+			public MethodInfo Method;
+			public BaseCommandAttribute Attribute;
+			public ButtonAttribute ButtonAttribute;
+		}
+
 		public Type Type;
 		public CommandSetAttribute Attribute;
 		public MethodAttributePair<BaseCommandAttribute> ExecuteCommand;
 		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
-		public IEnumerable<dynamic> KeyBindings;
+		public IEnumerable<KB> KeyBindings;
+		public IEnumerable<B> Buttons;
 	}
 
 	public static class PackageEx
@@ -41,7 +56,22 @@ namespace VSIXEx
 					Commands = commands,
 					KeyBindings = commands
 						.Where(c => c.Attribute is CommandExecuteAttribute)
-						.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>().Select(kb => new { c.Method, c.Attribute, KeyBindingAttribute = kb }))
+						.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>()
+							.Select(a => new CommandType.KB
+							{
+								Method = c.Method,
+								Attribute = c.Attribute,
+								KeyBindingAttribute = a
+							})),
+					Buttons = commands
+						.Where(c => c.Attribute is CommandExecuteAttribute)
+						.SelectMany(c => c.Method.GetAttributes<ButtonAttribute>()
+							.Select(a => new CommandType.B
+							{
+								Method = c.Method,
+								Attribute = c.Attribute,
+								ButtonAttribute = a
+							})),
 				};
 			}
 		}

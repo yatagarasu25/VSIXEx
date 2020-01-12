@@ -66,6 +66,29 @@ namespace VSIXEx
 				}));
 		}
 
+		public IEnumerable<CommandButtonType> EnumCommandButtons()
+		{
+			return CommandSets.SelectMany(i => i.Value.SelectMany(c => c.Buttons)
+				.Select(btn => new CommandButtonType
+				{
+					Guid = GuidSymbols[i.Key].Name,
+					Id = CommandIDs[i.Key][btn.Attribute.CommandId].Name,
+					Type = btn.ButtonAttribute.Type,
+					Priority = btn.ButtonAttribute.Priority,
+					Parent = new CommandParentType
+					{
+						Guid = GuidSymbols[btn.ButtonAttribute.Parent.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+						Id = btn.ButtonAttribute.Parent.Name,
+					},
+					Icon = new CommandIconType
+					{
+						Guid = GuidSymbols[btn.ButtonAttribute.Icon.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+						Id = btn.ButtonAttribute.Icon.Name,
+					},
+					ButtonText = btn.ButtonAttribute.ButtonText
+				}));
+		}
+
 		public IEnumerable<CommandMenuType> EnumCommandMenus() => CommandMenus;
 		public IEnumerable<CommandBitmapType> EnumCommandBitmaps() => CommandBitmaps;
 	}
