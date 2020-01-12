@@ -10,14 +10,18 @@
 <#@ import namespace="VSIXEx" #>
 <#@ import namespace="VSIXEx.Attributes" #>
 <#@ parameter name="model" type="VSIXEx.VSCTModel" #>
-    <!--
     <Menus>
 <#
 try
 {
 	foreach (var menu in this.model.EnumCommandMenus())
 	{#>
-      <Menu guid="<#= menu.Guid #>" type="<#= menu.Type.ToString() #>">
+      <Menu guid="<#= menu.Guid #>" id="<#= menu.Id #>" type="<#= menu.Type.ToString() #>">
+        <CommandFlag><#= menu.CommandFlag.ToString() #></CommandFlag>
+        <Strings>
+          <ButtonText><#= menu.ButtonText #></ButtonText>
+          <CommandName><#= menu.CommandName #></CommandName>
+        </Strings>
       </Menu>
 <#	}
 }
@@ -26,4 +30,3 @@ catch (Exception e)
 <!-- <#= e.Message #> -->
 <#}#>
     </Menus>
-    -->

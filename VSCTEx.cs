@@ -44,7 +44,11 @@ namespace VSIXEx
 	public struct CommandMenuType
 	{
 		public string Guid;
+		public string Id;
 		public MenuType Type;
+		public MenuCommandFlag CommandFlag;
+		public string ButtonText;
+		public string CommandName;
 	}
 
 	public struct CommandBitmapType

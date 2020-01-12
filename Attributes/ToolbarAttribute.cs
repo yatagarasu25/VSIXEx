@@ -5,8 +5,8 @@ namespace VSIXEx.Attributes
 	[AttributeUsage(AttributeTargets.Field)]
 	public class ToolbarAttribute : BaseMenuAttribute
 	{
-		public ToolbarAttribute(MenuCommandFlag commandFlag)
-			: base(MenuType.Toolbar, commandFlag)
+		public ToolbarAttribute(MenuCommandFlag commandFlag, string commandName = null, string buttonText = null)
+			: base(MenuType.Toolbar, commandFlag, commandName, buttonText)
 		{
 		}
 	}

@@ -28,8 +28,15 @@ namespace VSIXEx
 				.ToDictionary(i => i.Key, i => i as IEnumerable<CommandType>);
 			CommandMenus = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Attribute.Guid, IDs = id.Type.EnumEnumValuesWithAttribute<int, BaseMenuAttribute>() })
-				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Menu = menu.Attribute }))
-				.Select(id => new CommandMenuType { Guid = GuidSymbols[id.Guid].Name, Type = id.Menu.Type });
+				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Id = menu.Name, Menu = menu.Attribute }))
+				.Select(id => new CommandMenuType {
+					Guid = GuidSymbols[id.Guid].Name,
+					Id = id.Id,
+					Type = id.Menu.Type,
+					CommandFlag = id.Menu.CommandFlag,
+					CommandName = id.Menu.CommandName,
+					ButtonText = id.Menu.ButtonText,
+				});
 			CommandBitmaps = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Type, id.Attribute, BitmapAttribute = id.Type.GetAttribute<BitmapAttribute>() })
 				.Where(id => id.BitmapAttribute != null)
