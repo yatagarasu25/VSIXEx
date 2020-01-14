@@ -12,10 +12,12 @@ namespace VSIXEx.Attributes
 	public class GuidSymbolAttribute : Attribute
 	{
 		public string Name;
+		public bool Hidden;
 
-		public GuidSymbolAttribute(string name = null)
+		public GuidSymbolAttribute(string name = null, bool hidden = false)
 		{
 			Name = name;
+			Hidden = hidden;
 		}
 
 		public string GetName(FieldInfo field)

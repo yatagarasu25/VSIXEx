@@ -6,10 +6,12 @@ namespace VSIXEx.Attributes
 	public class IDSymbolsAttribute : Attribute
 	{
 		public Guid Guid;
+		public bool Hidden;
 
-		public IDSymbolsAttribute(string guid)
+		public IDSymbolsAttribute(string guid, bool hidden = false)
 		{
 			Guid = new Guid(guid);
+			Hidden = hidden;
 		}
 	}
 }

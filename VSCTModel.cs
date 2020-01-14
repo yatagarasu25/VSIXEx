@@ -7,6 +7,22 @@ using VSIXEx.Attributes;
 
 namespace VSIXEx
 {
+	[GuidSymbols]
+	public static class VsGuidSymbols
+	{
+		[GuidSymbol(hidden: true)]
+		public const string guidSHLMainMenu = "E02D52D3-67E5-4B79-8B1F-41D2E743A364"; // TODO: value not correct, but that is not important.
+	}
+
+	[IDSymbols(VsGuidSymbols.guidSHLMainMenu, hidden: true)]
+	public enum VsGroupIDs
+	{
+		IDM_VS_CTXT_CODEWIN,
+		IDM_VS_CTXT_FOLDERNODE,
+		IDM_VS_CTXT_EZDOCWINTAB,
+		IDM_VS_CTXT_ITEMNODE,
+	}
+
 	public class VSCTModel
 	{
 		protected Dictionary<Guid, GuidSymbolType> GuidSymbols;
@@ -18,8 +34,11 @@ namespace VSIXEx
 
 		public VSCTModel(Assembly assembly)
 		{
-			GuidSymbols = assembly.EnumGuidSymbols().ToDictionary(i => i.Guid);
-			CommandIDs = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
+			GuidSymbols = new[] { assembly, typeof(VSCTModel).Assembly }
+				.SelectMany(a => a.EnumGuidSymbols())
+				.ToDictionary(i => i.Guid);
+			CommandIDs = new[] { assembly, typeof(VSCTModel).Assembly }
+				.SelectMany(a => a.EnumTypesWithAttribute<IDSymbolsAttribute>())
 				.GroupBy(id => id.Attribute.Guid)
 				.Select(g => new { Guid = g.Key, IDs = g.SelectMany(gid => gid.Type.EnumEnumValues<int>()).ToDictionary(i => i.Value) })
 				.ToDictionary(i => i.Guid, i => i.IDs);
@@ -44,14 +63,16 @@ namespace VSIXEx
 				.Select(id => new CommandBitmapType { Guid = GuidSymbols[id.Attribute.Guid].Name, Href = id.BitmapAttribute.Href, IDs = id.Type.EnumEnumValues<int>() });
 		}
 
-		public IEnumerable<CommandIDsType> EnumCommandIDs()
+		public IEnumerable<CommandIDsType> EnumCommandIDs(bool withHidden = false)
 		{
-			return GuidSymbols.Select(i => new CommandIDsType
-			{
-				Guid = i.Key,
-				Name = i.Value.Name,
-				IDs = CommandIDs.Where(ei => ei.Key == i.Key).Select(ei => ei.Value).SelectMany(ei => ei.Values)
-			});
+			return GuidSymbols
+				.Where(i => !i.Value.Hidden || withHidden)
+				.Select(i => new CommandIDsType
+				{
+					Guid = i.Key,
+					Name = i.Value.Name,
+					IDs = CommandIDs.Where(ei => ei.Key == i.Key).Select(ei => ei.Value).SelectMany(ei => ei.Values)
+				});
 		}
 
 		public IEnumerable<KeyBindingType> EnumKeyBindings()

@@ -28,6 +28,7 @@ namespace VSIXEx
 	{
 		public Guid Guid;
 		public string Name;
+		public bool Hidden;
 	}
 
 	public struct CommandIDsType
@@ -97,7 +98,8 @@ namespace VSIXEx
 					yield return new GuidSymbolType
 					{
 						Guid = new Guid(field.Field.GetValue(null) as string),
-						Name = field.Attribute.GetName(field.Field)
+						Name = field.Attribute.GetName(field.Field),
+						Hidden = field.Attribute.Hidden
 					};
 				}
 			}
