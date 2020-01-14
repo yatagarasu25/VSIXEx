@@ -22,9 +22,9 @@ namespace VSIXEx.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+    #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class VsctSymbols : VsctSymbolsBase
+    public partial class VsctCommandsGroups : VsctCommandsGroupsBase
     {
 #line hidden
         /// <summary>
@@ -32,89 +32,69 @@ namespace VSIXEx.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("  <Symbols>\r\n");
+            this.Write("    <Groups>\r\n");
             
-            #line 14 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 14 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
 
 try
 {
-	foreach (var symbol in this.model.EnumCommandIDs())
+	foreach (var group in this.model.EnumCommandGroups())
 	{
-		if (!symbol.IDs.Any())
-		{
             
             #line default
             #line hidden
-            this.Write("    <GuidSymbol name=\"");
+            this.Write("      <Group guid=\"");
             
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\" value=\"");
-            
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Guid.ToString("B")));
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(group.Guid));
             
             #line default
             #line hidden
-            this.Write("\" />\r\n");
+            this.Write("\" id=\"");
             
-            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-		}
-		else
-		{
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(group.Id));
             
             #line default
             #line hidden
-            this.Write("    <GuidSymbol name=\"");
+            this.Write("\"");
             
-            #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\" value=\"");
-            
-            #line 25 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(symbol.Guid.ToString("B")));
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+ if (!(group.Priority < 0)) { 
             
             #line default
             #line hidden
-            this.Write("\">\r\n");
+            this.Write(" priority=\"0x");
             
-            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-			foreach (var id in symbol.IDs)
-			{
-            
-            #line default
-            #line hidden
-            this.Write("      <IDSymbol name=\"");
-            
-            #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(id.Name));
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(group.Priority.ToString("X4")));
             
             #line default
             #line hidden
-            this.Write("\" value=\"0x");
+            this.Write("\"");
             
-            #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(id.Value.ToString("X4")));
-            
-            #line default
-            #line hidden
-            this.Write("\" />\r\n");
-            
-            #line 29 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-			}
+            #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+ } 
             
             #line default
             #line hidden
-            this.Write("    </GuidSymbol>\r\n");
+            this.Write(">\r\n        <Parent guid=\"");
             
-            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
-		}
+            #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(group.Parent.Guid));
+            
+            #line default
+            #line hidden
+            this.Write("\" id=\"");
+            
+            #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(group.Parent.Id));
+            
+            #line default
+            #line hidden
+            this.Write("\"/>\r\n      </Group>\r\n");
+            
+            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
 	}
 }
 catch (Exception e)
@@ -124,23 +104,23 @@ catch (Exception e)
             #line hidden
             this.Write("<!-- ");
             
-            #line 36 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(e.Message));
             
             #line default
             #line hidden
             this.Write(" -->\r\n");
             
-            #line 37 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+            #line 27 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
 }
             
             #line default
             #line hidden
-            this.Write("  </Symbols>");
+            this.Write("    </Groups>");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctSymbols.tt"
+        #line 1 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsGroups.tt"
 
 private global::VSIXEx.VSCTModel _modelField;
 
@@ -195,7 +175,7 @@ if ((modelValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class VsctSymbolsBase
+    public class VsctCommandsGroupsBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

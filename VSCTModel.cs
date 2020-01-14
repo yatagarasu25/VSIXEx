@@ -23,11 +23,21 @@ namespace VSIXEx
 		IDM_VS_CTXT_ITEMNODE,
 	}
 
+	public static class VsGroupIDs_
+	{
+		const string s = nameof(VSIXEx) + "." + nameof(VsGroupIDs);
+		public const string IDM_VS_CTXT_CODEWIN = s + "." + nameof(VsGroupIDs.IDM_VS_CTXT_CODEWIN) + ", VSIXEx";
+		public const string IDM_VS_CTXT_FOLDERNODE = s + "." + nameof(VsGroupIDs.IDM_VS_CTXT_FOLDERNODE) + ", VSIXEx";
+		public const string IDM_VS_CTXT_EZDOCWINTAB = s + "." + nameof(VsGroupIDs.IDM_VS_CTXT_EZDOCWINTAB) + ", VSIXEx";
+		public const string IDM_VS_CTXT_ITEMNODE = s + "." + nameof(VsGroupIDs.IDM_VS_CTXT_ITEMNODE) + ", VSIXEx";
+	}
+
 	public class VSCTModel
 	{
 		protected Dictionary<Guid, GuidSymbolType> GuidSymbols;
 		protected Dictionary<Guid, Dictionary<int, EnumNameValuePair<int>>> CommandIDs;
 		protected Dictionary<Guid, IEnumerable<CommandType>> CommandSets;
+		protected IEnumerable<CommandGroupType> CommandGroups;
 		protected IEnumerable<CommandMenuType> CommandMenus;
 		protected IEnumerable<CommandButtonType> CommandButtons;
 		protected IEnumerable<CommandBitmapType> CommandBitmaps;
@@ -46,10 +56,25 @@ namespace VSIXEx
 				.SelectMany(ca => ca.EnumCommands())
 				.GroupBy(i => i.Attribute.Guid)
 				.ToDictionary(i => i.Key, i => i as IEnumerable<CommandType>);
+			CommandGroups = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
+				.Select(id => new { id.Attribute.Guid, IDs = id.Type.EnumEnumValuesWithAttribute<int, GroupAttribute>() })
+				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Id = menu.Name, Group = menu.Attribute }))
+				.Select(id => new CommandGroupType
+				{
+					Guid = GuidSymbols[id.Guid].Name,
+					Id = id.Id,
+					Parent = new CommandParentType
+					{
+						Guid = GuidSymbols[id.Group.Parent.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+						Id = id.Group.Parent.Name,
+					},
+					Priority = id.Group.Priority
+				});
 			CommandMenus = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Attribute.Guid, IDs = id.Type.EnumEnumValuesWithAttribute<int, BaseMenuAttribute>() })
 				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Id = menu.Name, Menu = menu.Attribute }))
-				.Select(id => new CommandMenuType {
+				.Select(id => new CommandMenuType
+				{
 					Guid = GuidSymbols[id.Guid].Name,
 					Id = id.Id,
 					Type = id.Menu.Type,
@@ -60,7 +85,12 @@ namespace VSIXEx
 			CommandBitmaps = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Type, id.Attribute, BitmapAttribute = id.Type.GetAttribute<BitmapAttribute>() })
 				.Where(id => id.BitmapAttribute != null)
-				.Select(id => new CommandBitmapType { Guid = GuidSymbols[id.Attribute.Guid].Name, Href = id.BitmapAttribute.Href, IDs = id.Type.EnumEnumValues<int>() });
+				.Select(id => new CommandBitmapType
+				{
+					Guid = GuidSymbols[id.Attribute.Guid].Name,
+					Href = id.BitmapAttribute.Href,
+					IDs = id.Type.EnumEnumValues<int>()
+				});
 		}
 
 		public IEnumerable<CommandIDsType> EnumCommandIDs(bool withHidden = false)
@@ -86,6 +116,8 @@ namespace VSIXEx
 					Attribute = kb.KeyBindingAttribute
 				}));
 		}
+
+		public IEnumerable<CommandGroupType> EnumCommandGroups() => CommandGroups;
 
 		public IEnumerable<CommandButtonType> EnumCommandButtons()
 		{

@@ -53,6 +53,14 @@ namespace VSIXEx
 		public string Id;
 	}
 
+	public struct CommandGroupType
+	{
+		public string Guid;
+		public string Id;
+		public CommandParentType Parent;
+		public int Priority;
+	}
+
 	public struct CommandIconType
 	{
 		public string Guid;
@@ -114,6 +122,11 @@ namespace VSIXEx
 		public static string GenerateSymbols(this VSCTModel model)
 		{
 			return Template.TransformToText<VsctSymbols>(new { model }.ToExpando());
+		}
+
+		public static string GenerateCommandGroups(this VSCTModel model)
+		{
+			return Template.TransformToText<VsctCommandsGroups>(new { model }.ToExpando());
 		}
 
 		public static string GenerateCommandMenus(this VSCTModel model)

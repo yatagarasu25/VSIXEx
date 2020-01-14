@@ -57,10 +57,10 @@ try
             
             #line default
             #line hidden
-            this.Write("\" priority=\"");
+            this.Write("\" priority=\"0x");
             
             #line 19 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(button.Priority.ToString("X")));
+            this.Write(this.ToStringHelper.ToStringWithCulture(button.Priority.ToString("X4")));
             
             #line default
             #line hidden

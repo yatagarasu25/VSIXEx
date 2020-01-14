@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\BaseCommandAttribute.cs" />
+    <Compile Include="Attributes\GroupAttribute.cs" />
     <Compile Include="Attributes\ButtonAttribute.cs" />
     <Compile Include="Attributes\ToolbarAttribute.cs" />
     <Compile Include="Attributes\BaseMenuAttribute.cs" />
@@ -103,6 +104,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\VsctCommandsButtons.cs">
       <DependentUpon>VsctCommandsButtons.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\VsctCommandsGroups.cs">
+      <DependentUpon>VsctCommandsGroups.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -143,6 +149,10 @@
     <Content Include="Templates\VsctCommandsButtons.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VsctCommandsButtons.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\VsctCommandsGroups.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VsctCommandsGroups.cs</LastGenOutput>
     </Content>
     <Content Include="Templates\VsctCommandsMenus.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

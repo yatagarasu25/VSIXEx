@@ -10,23 +10,19 @@
 <#@ import namespace="VSIXEx" #>
 <#@ import namespace="VSIXEx.Attributes" #>
 <#@ parameter name="model" type="VSIXEx.VSCTModel" #>
-    <Buttons>
+    <Groups>
 <#
 try
 {
-	foreach (var button in this.model.EnumCommandButtons())
+	foreach (var group in this.model.EnumCommandGroups())
 	{#>
-      <Button guid="<#= button.Guid #>" id="<#= button.Id #>" priority="0x<#= button.Priority.ToString("X4") #>" type="<#= button.Type.ToString() #>">
-        <Parent guid="<#= button.Parent.Guid #>" id="<#= button.Parent.Id #>" />
-        <Icon guid="<#= button.Icon.Guid #>" id="<#= button.Icon.Id #>" />
-        <Strings>
-          <ButtonText><#= button.ButtonText #></ButtonText>
-        </Strings>
-      </Button>
+      <Group guid="<#= group.Guid #>" id="<#= group.Id #>"<# if (!(group.Priority < 0)) { #> priority="0x<#= group.Priority.ToString("X4") #>"<# } #>>
+        <Parent guid="<#= group.Parent.Guid #>" id="<#= group.Parent.Id #>"/>
+      </Group>
 <#	}
 }
 catch (Exception e)
 {#>
 <!-- <#= e.Message #> -->
 <#}#>
-    </Buttons>
+    </Groups>

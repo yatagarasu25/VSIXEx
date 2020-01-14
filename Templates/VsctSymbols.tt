@@ -25,7 +25,7 @@ try
     <GuidSymbol name="<#= symbol.Name #>" value="<#= symbol.Guid.ToString("B") #>">
 <#			foreach (var id in symbol.IDs)
 			{#>
-      <IDSymbol name="<#= id.Name #>" value="0x<#= id.Value.ToString("X") #>" />
+      <IDSymbol name="<#= id.Name #>" value="0x<#= id.Value.ToString("X4") #>" />
 <#			}#>
     </GuidSymbol>
 <#		}
