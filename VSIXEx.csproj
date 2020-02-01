@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\BaseCommandAttribute.cs" />
+    <Compile Include="Attributes\CommandBeforeQueryStatusAttribute.cs" />
     <Compile Include="Attributes\GroupAttribute.cs" />
     <Compile Include="Attributes\ButtonAttribute.cs" />
     <Compile Include="Attributes\ToolbarAttribute.cs" />

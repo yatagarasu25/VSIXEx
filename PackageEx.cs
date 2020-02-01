@@ -30,8 +30,8 @@ namespace VSIXEx
 
 		public Type Type;
 		public CommandSetAttribute Attribute;
-		public MethodAttributePair<BaseCommandAttribute> ExecuteCommand;
 		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
+		public MethodAttributePair<BaseCommandAttribute> ExecuteCommand;
 		public IEnumerable<KB> KeyBindings;
 		public IEnumerable<B> Buttons;
 	}
@@ -52,8 +52,9 @@ namespace VSIXEx
 				{
 					Type = commandSet.Type,
 					Attribute = commandSet.Attribute,
-					ExecuteCommand = commands.Where(c => c.Attribute is CommandExecuteAttribute).Single(),
 					Commands = commands,
+					ExecuteCommand = commands.Where(c => c.Attribute is CommandExecuteAttribute).Single(),
+
 					KeyBindings = commands
 						.Where(c => c.Attribute is CommandExecuteAttribute)
 						.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>()
@@ -94,9 +95,20 @@ namespace VSIXEx
 						ThreadHelper.JoinableTaskFactory.Run(() =>
 							command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
 						, menuCommandID);
-					/*
-					menuCommand.BeforeQueryStatus += MenuCommand_BeforeQueryStatus;
-					*/
+
+					foreach (var beforeQueryStatus in command.Commands.Where(c => c.Attribute is CommandBeforeQueryStatusAttribute))
+					{
+						try
+						{
+							menuCommand.BeforeQueryStatus += (EventHandler)
+								Delegate.CreateDelegate(typeof(EventHandler), commandSet, beforeQueryStatus.Method);
+						}
+						catch
+						{
+							// TODO: Log wrong event signature.
+						}
+					}
+
 					commandService.AddCommand(menuCommand);
 				}
 			}
