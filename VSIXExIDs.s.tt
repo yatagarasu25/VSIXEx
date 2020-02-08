@@ -1,0 +1,8 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ import namespace="VSIXEx" #>
+<#
+	var visxAssembly = typeof(VSCTModel).Assembly;
+#>
+<#= visxAssembly.GenerateIdSymbolStrings() #>

@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Attributes\BaseCommandAttribute.cs" />
     <Compile Include="Attributes\CommandBeforeQueryStatusAttribute.cs" />
+    <Compile Include="Attributes\CommandPlacementAttribute.cs" />
     <Compile Include="Attributes\GroupAttribute.cs" />
     <Compile Include="Attributes\ButtonAttribute.cs" />
     <Compile Include="Attributes\MenuAttribute.cs" />
@@ -134,7 +135,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VsctSymbols.tt</DependentUpon>
     </Compile>
+    <Compile Include="Templates\VsixIdSymbolStrings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VsixIdSymbolStrings.tt</DependentUpon>
+    </Compile>
     <Compile Include="VSCTEx.cs" />
+    <Compile Include="VSIXExIDs.cs" />
+    <Compile Include="VSIXExIDs.s.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSIXExIDs.s.tt</DependentUpon>
+    </Compile>
     <Compile Include="VSCTModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +183,14 @@
     <Content Include="Templates\VsctSymbols.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VsctSymbols.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\VsixIdSymbolStrings.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VsixIdSymbolStrings.cs</LastGenOutput>
+    </Content>
+    <Content Include="VSIXExIDs.s.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VSIXExIDs.s.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

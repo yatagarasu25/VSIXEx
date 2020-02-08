@@ -122,6 +122,11 @@ namespace VSIXEx
 
 	public static class VSCTEx
 	{
+		public static IEnumerable<TypeAttributePair<IDSymbolsAttribute>> EnumIDSymbols(this Assembly assembly)
+		{
+			return assembly.EnumTypesWithAttribute<IDSymbolsAttribute>();
+		}
+
 		public static IEnumerable<GuidSymbolType> EnumGuidSymbols(this Assembly assembly)
 		{
 			foreach (var type in assembly.EnumTypesWithAttribute<GuidSymbolsAttribute>())
@@ -138,6 +143,14 @@ namespace VSIXEx
 			}
 		}
 
+		public static IEnumerable<EnumNameValuePair<int>> EnumCommandIds(this Type type)
+			=> type.EnumEnumValuesWithoutAttribute<int, NonSerializedAttribute>();
+
+
+		public static string GenerateIdSymbolStrings(this Assembly assembly)
+		{
+			return Template.TransformToText<VsixIdSymbolStrings>(new { assembly }.ToExpando());
+		}
 
 		public static string GenerateKeyBindings(this VSCTModel model)
 		{
