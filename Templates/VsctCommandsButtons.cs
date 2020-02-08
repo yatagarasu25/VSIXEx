@@ -40,6 +40,7 @@ try
 {
 	foreach (var button in this.model.EnumCommandButtons())
 	{
+
             
             #line default
             #line hidden
@@ -71,44 +72,67 @@ try
             
             #line default
             #line hidden
-            this.Write("\">\r\n        <Parent guid=\"");
+            this.Write("\">\r\n");
             
             #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+ if (!button.Parent.IsEmpty) {
+
+            
+            #line default
+            #line hidden
+            this.Write("        <Parent guid=\"");
+            
+            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(button.Parent.Guid));
             
             #line default
             #line hidden
             this.Write("\" id=\"");
             
-            #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(button.Parent.Id));
             
             #line default
             #line hidden
-            this.Write("\" />\r\n        <Icon guid=\"");
+            this.Write("\" />\r\n");
             
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+ } if (!button.Icon.IsEmpty) {
+
+            
+            #line default
+            #line hidden
+            this.Write("        <Icon guid=\"");
+            
+            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(button.Icon.Guid));
             
             #line default
             #line hidden
             this.Write("\" id=\"");
             
-            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(button.Icon.Id));
             
             #line default
             #line hidden
-            this.Write("\" />\r\n        <Strings>\r\n          <ButtonText>");
+            this.Write("\" />\r\n");
             
-            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 24 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("        <Strings>\r\n          <ButtonText>");
+            
+            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(button.ButtonText));
             
             #line default
             #line hidden
             this.Write("</ButtonText>\r\n        </Strings>\r\n      </Button>\r\n");
             
-            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 29 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
 	}
 }
 catch (Exception e)
@@ -118,14 +142,14 @@ catch (Exception e)
             #line hidden
             this.Write("<!-- ");
             
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 33 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(e.Message));
             
             #line default
             #line hidden
             this.Write(" -->\r\n");
             
-            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
+            #line 34 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsButtons.tt"
 }
             
             #line default

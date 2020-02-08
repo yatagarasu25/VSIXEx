@@ -40,6 +40,7 @@ try
 {
 	foreach (var menu in this.model.EnumCommandMenus())
 	{
+
             
             #line default
             #line hidden
@@ -64,30 +65,98 @@ try
             
             #line default
             #line hidden
-            this.Write("\">\r\n        <CommandFlag>");
+            this.Write("\">\r\n");
             
             #line 20 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ if (!menu.Parent.IsEmpty) {
+
+            
+            #line default
+            #line hidden
+            this.Write("        <Parent guid=\"");
+            
+            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(menu.Parent.Guid));
+            
+            #line default
+            #line hidden
+            this.Write("\" id=\"");
+            
+            #line 21 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(menu.Parent.Id));
+            
+            #line default
+            #line hidden
+            this.Write("\" />\r\n");
+            
+            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ } if (menu.CommandFlag != MenuCommandFlag.None) { 
+
+            
+            #line default
+            #line hidden
+            this.Write("        <CommandFlag>");
+            
+            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(menu.CommandFlag.ToString()));
             
             #line default
             #line hidden
-            this.Write("</CommandFlag>\r\n        <Strings>\r\n          <ButtonText>");
+            this.Write("</CommandFlag>\r\n");
             
-            #line 22 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            #line 24 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ } if (menu.ButtonText != null || menu.CommandName != null) { 
+
+            
+            #line default
+            #line hidden
+            this.Write("        <Strings>\r\n");
+            
+            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ if (menu.ButtonText != null) { 
+
+            
+            #line default
+            #line hidden
+            this.Write("          <ButtonText>");
+            
+            #line 27 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(menu.ButtonText));
             
             #line default
             #line hidden
-            this.Write("</ButtonText>\r\n          <CommandName>");
+            this.Write("</ButtonText>\r\n");
             
-            #line 23 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            #line 28 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ } if (menu.CommandName != null) { 
+
+            
+            #line default
+            #line hidden
+            this.Write("          <CommandName>");
+            
+            #line 29 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(menu.CommandName));
             
             #line default
             #line hidden
-            this.Write("</CommandName>\r\n        </Strings>\r\n      </Menu>\r\n");
+            this.Write("</CommandName>\r\n");
             
-            #line 26 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("        </Strings>\r\n");
+            
+            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("      </Menu>\r\n");
+            
+            #line 32 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
 	}
 }
 catch (Exception e)
@@ -97,15 +166,16 @@ catch (Exception e)
             #line hidden
             this.Write("<!-- ");
             
-            #line 30 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            #line 36 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(e.Message));
             
             #line default
             #line hidden
             this.Write(" -->\r\n");
             
-            #line 31 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
+            #line 37 "D:\workspace\UE4AssistantVSIX\VSIXEx\Templates\VsctCommandsMenus.tt"
 }
+
             
             #line default
             #line hidden

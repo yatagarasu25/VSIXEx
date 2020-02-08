@@ -11,17 +11,35 @@ namespace VSIXEx
 {
 	public enum MenuType
 	{
-		Toolbar
+		Context,
+		Menu,
+		MenuController,
+		MenuControllerLatched,
+		Toolbar,
+		ToolWindowToolbar
 	}
 
 	public enum MenuCommandFlag
 	{
-		DefaultDocked
+		None,
+		AlwaysCreate,
+		DefaultDocked,
+		DefaultInvisible,
+		DontCache,
+		DynamicVisibility,
+		IconAndText,
+		NoCustomize,
+		NotInTBList,
+		NoToolbarClose,
+		TextChanges,
+		TextIsAnchorCommand,
 	}
 
 	public enum ButtonType
 	{
-		Button
+		Button,
+		MenuButton,
+		SplitDropDown
 	}
 
 	public struct GuidSymbolType
@@ -49,6 +67,9 @@ namespace VSIXEx
 
 	public struct CommandParentType
 	{
+		public static CommandParentType Empty = new CommandParentType { Guid = null, Id = null };
+		public bool IsEmpty { get => Guid == null || Id == null; }
+
 		public string Guid;
 		public string Id;
 	}
@@ -63,6 +84,9 @@ namespace VSIXEx
 
 	public struct CommandIconType
 	{
+		public static CommandIconType Empty = new CommandIconType { Guid = null, Id = null };
+		public bool IsEmpty { get => Guid == null || Id == null; }
+
 		public string Guid;
 		public string Id;
 	}
@@ -71,6 +95,7 @@ namespace VSIXEx
 	{
 		public string Guid;
 		public string Id;
+		public CommandParentType Parent;
 		public MenuType Type;
 		public MenuCommandFlag CommandFlag;
 		public string ButtonText;

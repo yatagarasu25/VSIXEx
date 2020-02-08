@@ -9,24 +9,30 @@
 <#@ import namespace="SystemEx" #>
 <#@ import namespace="VSIXEx" #>
 <#@ import namespace="VSIXEx.Attributes" #>
-<#@ parameter name="model" type="VSIXEx.VSCTModel" #>
-    <Menus>
+<#@ parameter name="model" type="VSIXEx.VSCTModel"
+#>    <Menus>
 <#
 try
 {
 	foreach (var menu in this.model.EnumCommandMenus())
-	{#>
-      <Menu guid="<#= menu.Guid #>" id="<#= menu.Id #>" type="<#= menu.Type.ToString() #>">
-        <CommandFlag><#= menu.CommandFlag.ToString() #></CommandFlag>
-        <Strings>
-          <ButtonText><#= menu.ButtonText #></ButtonText>
-          <CommandName><#= menu.CommandName #></CommandName>
-        </Strings>
-      </Menu>
+	{
+#>      <Menu guid="<#= menu.Guid #>" id="<#= menu.Id #>" type="<#= menu.Type.ToString() #>">
+<# if (!menu.Parent.IsEmpty) {
+#>        <Parent guid="<#= menu.Parent.Guid #>" id="<#= menu.Parent.Id #>" />
+<# } if (menu.CommandFlag != MenuCommandFlag.None) { 
+#>        <CommandFlag><#= menu.CommandFlag.ToString() #></CommandFlag>
+<# } if (menu.ButtonText != null || menu.CommandName != null) { 
+#>        <Strings>
+<# if (menu.ButtonText != null) { 
+#>          <ButtonText><#= menu.ButtonText #></ButtonText>
+<# } if (menu.CommandName != null) { 
+#>          <CommandName><#= menu.CommandName #></CommandName>
+<# } #>        </Strings>
+<# } #>      </Menu>
 <#	}
 }
 catch (Exception e)
 {#>
 <!-- <#= e.Message #> -->
-<#}#>
-    </Menus>
+<#}
+#>    </Menus>

@@ -50,7 +50,7 @@ namespace VSIXEx
 			CommandIDs = new[] { assembly, typeof(VSCTModel).Assembly }
 				.SelectMany(a => a.EnumTypesWithAttribute<IDSymbolsAttribute>())
 				.GroupBy(id => id.Attribute.Guid)
-				.Select(g => new { Guid = g.Key, IDs = g.SelectMany(gid => gid.Type.EnumEnumValues<int>()).ToDictionary(i => i.Value) })
+				.Select(g => new { Guid = g.Key, IDs = g.SelectMany(gid => gid.Type.EnumEnumValuesWithoutAttribute<int, NonSerializedAttribute>()).ToDictionary(i => i.Value) })
 				.ToDictionary(i => i.Guid, i => i.IDs);
 			CommandSets = assembly.EnumCommandSets()
 				.SelectMany(ca => ca.EnumCommands())
@@ -72,15 +72,22 @@ namespace VSIXEx
 				});
 			CommandMenus = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Attribute.Guid, IDs = id.Type.EnumEnumValuesWithAttribute<int, BaseMenuAttribute>() })
-				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Id = menu.Name, Menu = menu.Attribute }))
+				.SelectMany(id => id.IDs.Select(menu => new { id.Guid, Id = menu.Name, MenuAttribute = menu.Attribute }))
 				.Select(id => new CommandMenuType
 				{
 					Guid = GuidSymbols[id.Guid].Name,
 					Id = id.Id,
-					Type = id.Menu.Type,
-					CommandFlag = id.Menu.CommandFlag,
-					CommandName = id.Menu.CommandName,
-					ButtonText = id.Menu.ButtonText,
+					Parent = id.MenuAttribute.Parent != null
+					? new CommandParentType
+					{
+						Guid = GuidSymbols[id.MenuAttribute.Parent.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+						Id = id.MenuAttribute.Parent.Name,
+					}
+					: CommandParentType.Empty,
+					Type = id.MenuAttribute.Type,
+					CommandFlag = id.MenuAttribute.CommandFlag,
+					CommandName = id.MenuAttribute.CommandName,
+					ButtonText = id.MenuAttribute.ButtonText,
 				});
 			CommandBitmaps = assembly.EnumTypesWithAttribute<IDSymbolsAttribute>()
 				.Select(id => new { id.Type, id.Attribute, BitmapAttribute = id.Type.GetAttribute<BitmapAttribute>() })
@@ -128,16 +135,20 @@ namespace VSIXEx
 					Id = CommandIDs[i.Key][btn.Attribute.CommandId].Name,
 					Type = btn.ButtonAttribute.Type,
 					Priority = btn.ButtonAttribute.Priority,
-					Parent = new CommandParentType
-					{
-						Guid = GuidSymbols[btn.ButtonAttribute.Parent.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
-						Id = btn.ButtonAttribute.Parent.Name,
-					},
-					Icon = new CommandIconType
-					{
-						Guid = GuidSymbols[btn.ButtonAttribute.Icon.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
-						Id = btn.ButtonAttribute.Icon.Name,
-					},
+					Parent = btn.ButtonAttribute.Parent != null
+					? new CommandParentType
+						{
+							Guid = GuidSymbols[btn.ButtonAttribute.Parent.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+							Id = btn.ButtonAttribute.Parent.Name,
+						}
+					: CommandParentType.Empty,
+					Icon = btn.ButtonAttribute.Icon != null
+					? new CommandIconType
+						{
+							Guid = GuidSymbols[btn.ButtonAttribute.Icon.FieldType.GetAttribute<IDSymbolsAttribute>().Guid].Name,
+							Id = btn.ButtonAttribute.Icon.Name,
+						}
+					: CommandIconType.Empty,
 					ButtonText = btn.ButtonAttribute.ButtonText
 				}));
 		}
