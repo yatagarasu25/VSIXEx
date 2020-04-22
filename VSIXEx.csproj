@@ -103,6 +103,7 @@
     <Compile Include="Attributes\KeyBindingAttribute.cs" />
     <Compile Include="BaseCommandSet.cs" />
     <Compile Include="BaseAsyncPackage.cs" />
+    <Compile Include="Events\RunningDocTableEvents.cs" />
     <Compile Include="PackageEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\VsctCommandsButtons.cs">
