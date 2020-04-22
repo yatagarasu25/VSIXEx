@@ -25,13 +25,18 @@ namespace VSIXEx.Events
 		RunningDocumentTable rdt;
 		private uint cookie;
 
+		Action<uint> OnAfterSaveFn = null;
+		Action OnAfterSaveAllFn = null;
+
 		public RunningDocTableEvents(IServiceProvider serviceProvider,
-			Action OnAfterSaveFn)
+			Action<uint> OnAfterSave = null,
+			Action OnAfterSaveAll = null)
 		{
 			rdt = new RunningDocumentTable(serviceProvider);
 			cookie = rdt.Advise(this);
 
-			this.OnAfterSaveFn = OnAfterSaveFn;
+			OnAfterSaveFn = OnAfterSave;
+			OnAfterSaveAllFn = OnAfterSaveAll;
 		}
 
 		public void Dispose()
@@ -49,14 +54,14 @@ namespace VSIXEx.Events
 		public int OnAfterAttributeChangeEx(uint docCookie, uint grfAttribs, IVsHierarchy pHierOld, uint itemidOld, string pszMkDocumentOld, IVsHierarchy pHierNew, uint itemidNew, string pszMkDocumentNew) => VSConstants.S_OK;
 		public int OnBeforeSave(uint docCookie) => VSConstants.S_OK;
 
-		Action OnAfterSaveFn;
 		public int OnAfterSave(uint docCookie)
 		{
 			var dirtyCount = rdt.Count(d => d.IsDirty());
 
+			OnAfterSaveFn?.Invoke(docCookie);
 			if (dirtyCount == 0)
 			{
-				OnAfterSaveFn();
+				OnAfterSaveAllFn?.Invoke();
 			}
 
 			return VSConstants.S_OK;
