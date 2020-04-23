@@ -29,6 +29,8 @@ namespace VSIXEx.Events
 
 		public VsCustomDebuggerEventHandler(IProfferService profferService, Guid guid, Action<Guid, VsComponentMessage> OnCustomDebugEvent)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			this.profferService = profferService;
 			this.guid = guid;
 			OnCustomDebugEventFn = OnCustomDebugEvent;
@@ -39,6 +41,8 @@ namespace VSIXEx.Events
 		#region IDisposable Support
 		public void Dispose()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			Dispose(true);
 		}
 

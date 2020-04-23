@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)SystemEx\SystemEx.csproj">
@@ -85,5 +84,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)VSSDK.props" Condition="Exists('$(SolutionDir)VSSDK.props')" />
+  <Import Project="$(SolutionDir)VSSDK.Analyzers.props" Condition="Exists('$(SolutionDir)VSSDK.Analyzers.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

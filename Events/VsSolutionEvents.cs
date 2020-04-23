@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
@@ -14,6 +15,8 @@ namespace VSIXEx.Events
 		public VsSolutionEvents(IVsSolution solution,
 			Action<int> OnAfterOpenSolution = null)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			this.solution = solution;
 			solution.AdviseSolutionEvents(this, out cookie);
 
@@ -22,6 +25,8 @@ namespace VSIXEx.Events
 
 		public void Dispose()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			solution.UnadviseSolutionEvents(cookie);
 		}
 

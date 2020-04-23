@@ -24,6 +24,8 @@ namespace VSIXEx.Events
 
 		public VsDebuggerEvents(IVsDebugger debugger)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			service = debugger;
 			service.AdviseDebuggerEvents(this, out cookie);
 		}
@@ -31,6 +33,8 @@ namespace VSIXEx.Events
 		#region IDisposable Support
 		public void Dispose()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			Dispose(true);
 		}
 
