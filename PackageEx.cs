@@ -30,7 +30,7 @@ namespace VSIXEx
 
 		public Type Type;
 		public CommandSetAttribute Attribute;
-		public IEnumerable<MethodAttributePair<BaseCommandAttribute>> Commands;
+		public List<MethodAttributePair<BaseCommandAttribute>> Commands;
 		public MethodAttributePair<BaseCommandAttribute> ExecuteCommand;
 		public IEnumerable<KB> KeyBindings;
 		public IEnumerable<B> Buttons;
@@ -46,8 +46,9 @@ namespace VSIXEx
 				where method.Attribute != null
 				group method by method.Attribute.CommandId;
 
-			foreach (var commands in commandMethodGroups)
+			foreach (var commandGroup in commandMethodGroups)
 			{
+				var commands = commandGroup.ToList();
 				yield return new CommandType
 				{
 					Type = commandSet.Type,
