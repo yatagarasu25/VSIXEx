@@ -25,4 +25,9 @@ namespace VSIXEx.Attributes
 			return Name != null ? Name : field.Name;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Field)]
+	public class PackageGuidSymbolAttribute : Attribute
+	{
+	}
 }
