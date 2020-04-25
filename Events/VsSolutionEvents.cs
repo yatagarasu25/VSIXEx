@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace VSIXEx.Events
 {
@@ -51,6 +53,23 @@ namespace VSIXEx.Events
 		public int OnAfterOpeningChildren(IVsHierarchy pHierarchy) => VSConstants.S_OK;
 		public int OnBeforeClosingChildren(IVsHierarchy pHierarchy) => VSConstants.S_OK;
 		public int OnAfterClosingChildren(IVsHierarchy pHierarchy) => VSConstants.S_OK;
+	}
 
+	public static class VsSolutionEventsEx
+	{
+		public static Task<VsSolutionEvents> SubscribeVsSolutionEventsAsync(this AsyncPackage package
+			, Action<int> OnAfterOpenSolution = null)
+			=> (package.GetServiceAsync(typeof(SVsSolution)) as IVsSolution).SubscribeAsync(
+					OnAfterOpenSolution: OnAfterOpenSolution);
+
+		public static async Task<VsSolutionEvents> SubscribeAsync(this IVsSolution solution
+			, Action<int> OnAfterOpenSolution = null)
+		{
+			if (solution == null)
+				return null;
+
+			return new VsSolutionEvents(solution,
+					OnAfterOpenSolution: OnAfterOpenSolution);
+		}
 	}
 }
