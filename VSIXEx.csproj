@@ -83,6 +83,9 @@
       <Name>SystemEx</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)VSSDK.props" Condition="Exists('$(SolutionDir)VSSDK.props')" />
   <Import Project="$(SolutionDir)VSSDK.Analyzers.props" Condition="Exists('$(SolutionDir)VSSDK.Analyzers.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
