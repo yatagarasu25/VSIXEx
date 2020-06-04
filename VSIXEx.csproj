@@ -71,6 +71,7 @@
     <Compile Include="Events\VsSolutionEvents.cs" />
     <Compile Include="PackageEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UndoContextEx.cs" />
     <Compile Include="Types.cs" />
     <Compile Include="VSIXExIDs.cs" />
   </ItemGroup>
