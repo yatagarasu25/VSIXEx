@@ -2,11 +2,11 @@
 
 namespace VSIXEx.Attributes
 {
-	[AttributeUsage(AttributeTargets.Method)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class CommandExecuteAttribute : BaseCommandAttribute
 	{
-		public CommandExecuteAttribute(int commandId)
-			: base(commandId)
+		public CommandExecuteAttribute(object commandId)
+			: base((int)commandId)
 		{
 		}
 	}

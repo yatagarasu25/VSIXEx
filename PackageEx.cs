@@ -42,7 +42,7 @@ namespace VSIXEx
 		public static IEnumerable<CommandType> EnumCommands(this TypeAttributePair<CommandSetAttribute> commandSet)
 		{
 			var commandMethodGroups =
-				from method in commandSet.Type.EnumMethodsWithAttribute<BaseCommandAttribute>()
+				from method in commandSet.Type.EnumMethodsWithMultipleAttribute<BaseCommandAttribute>()
 				where method.Attribute != null
 				group method by method.Attribute.CommandId;
 

@@ -2,11 +2,11 @@
 
 namespace VSIXEx.Attributes
 {
-	[AttributeUsage(AttributeTargets.Method)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class CommandBeforeQueryStatusAttribute : BaseCommandAttribute
 	{
-		public CommandBeforeQueryStatusAttribute(int commandId)
-			: base(commandId)
+		public CommandBeforeQueryStatusAttribute(object commandId)
+			: base((int)commandId)
 		{
 		}
 	}

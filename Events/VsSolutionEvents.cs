@@ -13,9 +13,11 @@ namespace VSIXEx.Events
 		uint cookie;
 
 		Action<int> OnAfterOpenSolutionFn;
+		Action OnBeforeCloseSolutionFn;
 
-		public VsSolutionEvents(IVsSolution solution,
-			Action<int> OnAfterOpenSolution = null)
+		public VsSolutionEvents(IVsSolution solution
+			, Action<int> OnAfterOpenSolution = null
+			, Action OnBeforeCloseSolution = null)
 		{
 			ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -23,6 +25,7 @@ namespace VSIXEx.Events
 			solution.AdviseSolutionEvents(this, out cookie);
 
 			OnAfterOpenSolutionFn = OnAfterOpenSolution;
+			OnBeforeCloseSolutionFn = OnBeforeCloseSolution;
 		}
 
 		public void Dispose()
@@ -45,7 +48,11 @@ namespace VSIXEx.Events
 			return VSConstants.S_OK;
 		}
 		public int OnQueryCloseSolution(object pUnkReserved, ref int pfCancel) => VSConstants.S_OK;
-		public int OnBeforeCloseSolution(object pUnkReserved) => VSConstants.S_OK;
+		public int OnBeforeCloseSolution(object pUnkReserved)
+		{
+			OnBeforeCloseSolutionFn?.Invoke();
+			return VSConstants.S_OK;
+		}
 		public int OnAfterCloseSolution(object pUnkReserved) => VSConstants.S_OK;
 		public int OnAfterMergeSolution(object pUnkReserved) => VSConstants.S_OK;
 
@@ -57,19 +64,23 @@ namespace VSIXEx.Events
 
 	public static class VsSolutionEventsEx
 	{
-		public static Task<VsSolutionEvents> SubscribeVsSolutionEventsAsync(this AsyncPackage package
-			, Action<int> OnAfterOpenSolution = null)
-			=> (package.GetServiceAsync(typeof(SVsSolution)) as IVsSolution).SubscribeAsync(
-					OnAfterOpenSolution: OnAfterOpenSolution);
+		public static async Task<VsSolutionEvents> SubscribeVsSolutionEventsAsync(this AsyncPackage package
+			, Action<int> OnAfterOpenSolution = null
+			, Action OnBeforeCloseSolution = null)
+			=> await (await package.GetServiceAsync(typeof(SVsSolution)) as IVsSolution).SubscribeAsync(
+					OnAfterOpenSolution: OnAfterOpenSolution
+					, OnBeforeCloseSolution: OnBeforeCloseSolution);
 
 		public static async Task<VsSolutionEvents> SubscribeAsync(this IVsSolution solution
-			, Action<int> OnAfterOpenSolution = null)
+			, Action<int> OnAfterOpenSolution = null
+			, Action OnBeforeCloseSolution = null)
 		{
 			if (solution == null)
 				return null;
 
-			return new VsSolutionEvents(solution,
-					OnAfterOpenSolution: OnAfterOpenSolution);
+			return new VsSolutionEvents(solution
+				, OnAfterOpenSolution: OnAfterOpenSolution
+				, OnBeforeCloseSolution: OnBeforeCloseSolution);
 		}
 	}
 }
