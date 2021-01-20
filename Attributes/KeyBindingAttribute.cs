@@ -6,10 +6,13 @@ namespace VSIXEx.Attributes
 	[AttributeUsage(AttributeTargets.Method)]
 	public class KeyBindingAttribute : Attribute
 	{
+		public string Editor = "guidVSStd97";
 		public string Key1;
 		public string Mod1;
 		public string Key2;
 		public string Mod2;
+		public string emulator;
+		public string Condition;
 
 		public KeyBindingAttribute(string key1, string mod1 = null, string key2 = null, string mod2 = null)
 		{

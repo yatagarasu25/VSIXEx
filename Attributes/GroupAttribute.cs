@@ -10,9 +10,9 @@ namespace VSIXEx.Attributes
 		public FieldInfo Parent;
 		public int Priority;
 
-		public GroupAttribute(string parent, int priority = -1)
+		public GroupAttribute(object parent, int priority = -1)
 		{
-			Parent = parent?.field();
+			Parent = (parent as Enum)?.field();
 			Priority = priority;
 		}
 	}

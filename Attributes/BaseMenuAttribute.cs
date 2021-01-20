@@ -13,9 +13,9 @@ namespace VSIXEx.Attributes
 		public string CommandName;
 		public string ButtonText;
 
-		public BaseMenuAttribute(string parent, MenuType type, MenuCommandFlag commandFlag, string commandName, string buttonText)
+		public BaseMenuAttribute(object parent, MenuType type, MenuCommandFlag commandFlag, string commandName, string buttonText)
 		{
-			Parent = parent?.field();
+			Parent = (parent as Enum)?.field();
 			Type = type;
 			CommandFlag = commandFlag;
 			CommandName = commandName;
