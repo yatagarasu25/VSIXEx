@@ -20,5 +20,10 @@ namespace VSIXEx
 			=> panes.Cast<OutputWindowPane>()
 				.Where(pane => pane.Guid == VSConstants.OutputWindowPaneGuid.GeneralPane_string)
 				.FirstOrDefault();
+
+		public static OutputWindowPane PaneByName(this OutputWindowPanes panes, string name)
+			=> panes.Cast<OutputWindowPane>()
+				.Where(pane => pane.Name == name)
+				.FirstOrDefault() ?? panes.Add(name);
 	}
 }
