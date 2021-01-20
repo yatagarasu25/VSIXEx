@@ -13,12 +13,12 @@ namespace VSIXEx.Attributes
 		public FieldInfo Icon;
 		public string ButtonText;
 
-		public ButtonAttribute(int priority, string parent, string icon, string buttonText)
+		public ButtonAttribute(int priority, object parent, object icon, string buttonText)
 		{
 			Type = ButtonType.Button;
 			Priority = priority;
-			Parent = parent?.field();
-			Icon = icon?.field();
+			Parent = (parent as Enum)?.field();
+			Icon = (icon as Enum)?.field();
 			ButtonText = buttonText;
 		}
 	}
