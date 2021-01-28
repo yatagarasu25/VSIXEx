@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE80;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -78,13 +80,13 @@ namespace VSIXEx
 			}
 		}
 
-		public static void RegisterCommandSets(this IEnumerable<TypeAttributePair<CommandSetAttribute>> commandSets, AsyncPackage package, OleMenuCommandService commandService)
+		public static void RegisterCommandSets(this IEnumerable<TypeAttributePair<CommandSetAttribute>> commandSets, BaseAsyncPackage package, OleMenuCommandService commandService)
 		{
 			foreach (var cs in commandSets)
 			{
 				foreach (var command in cs.EnumCommands())
 				{
-					var commandSet = 
+					var commandSet =
 						Activator.CreateInstance(cs.Type
 							, BindingFlags.NonPublic | BindingFlags.Instance, null
 							, new object[] { package, commandService }
@@ -92,10 +94,18 @@ namespace VSIXEx
 						as BaseCommandSet;
 
 					var menuCommandID = new CommandID(cs.Attribute.Guid, command.ExecuteCommand.Attribute.CommandId);
-					var menuCommand = new OleMenuCommand((s, e) => 
-						ThreadHelper.JoinableTaskFactory.Run(() =>
-							command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, e }) as Task)
-						, menuCommandID);
+					var menuCommand = new OleMenuCommand((s, ea) => {
+						ThreadHelper.ThrowIfNotOnUIThread();
+
+						try
+						{
+							ThreadHelper.JoinableTaskFactory.Run(() => command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, ea }) as Task);
+						}
+						catch (Exception e)
+						{
+							package.ErrorOutputPane?.OutputString(e.ToString());
+						}
+					}, menuCommandID);
 
 					foreach (var beforeQueryStatus in command.Commands.Where(c => c.Attribute is CommandBeforeQueryStatusAttribute))
 					{
