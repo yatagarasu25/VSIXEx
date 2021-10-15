@@ -50,33 +50,40 @@ namespace VSIXEx
 
 			foreach (var commandGroup in commandMethodGroups)
 			{
-				var commands = commandGroup.ToList();
-				yield return new CommandType
-				{
-					Type = commandSet.Type,
-					Attribute = commandSet.Attribute,
-					Commands = commands,
-					ExecuteCommand = commands.Where(c => c.Attribute is CommandExecuteAttribute).Single(),
+				CommandType command;
 
-					KeyBindings = commands
-						.Where(c => c.Attribute is CommandExecuteAttribute)
-						.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>()
-							.Select(a => new CommandType.KB
-							{
-								Method = c.Method,
-								Attribute = c.Attribute,
-								KeyBindingAttribute = a
-							})),
-					Buttons = commands
-						.Where(c => c.Attribute is CommandExecuteAttribute)
-						.SelectMany(c => c.Method.GetAttributes<ButtonAttribute>()
-							.Select(a => new CommandType.B
-							{
-								Method = c.Method,
-								Attribute = c.Attribute,
-								ButtonAttribute = a
-							})),
-				};
+				try
+				{
+					var commands = commandGroup.ToList();
+					command = new CommandType {
+						Type = commandSet.Type,
+						Attribute = commandSet.Attribute,
+						Commands = commands,
+						ExecuteCommand = commands.Where(c => c.Attribute is CommandExecuteAttribute).Single(),
+
+						KeyBindings = commands
+							.Where(c => c.Attribute is CommandExecuteAttribute)
+							.SelectMany(c => c.Method.GetAttributes<KeyBindingAttribute>()
+								.Select(a => new CommandType.KB {
+									Method = c.Method,
+									Attribute = c.Attribute,
+									KeyBindingAttribute = a
+								})),
+						Buttons = commands
+							.Where(c => c.Attribute is CommandExecuteAttribute)
+							.SelectMany(c => c.Method.GetAttributes<ButtonAttribute>()
+								.Select(a => new CommandType.B {
+									Method = c.Method,
+									Attribute = c.Attribute,
+									ButtonAttribute = a
+								})),
+					};
+				}
+				catch (Exception e)
+				{
+					throw new EnumCommandException($"Failed to EnumCommands for {commandSet.Attribute.Guid}", e);
+				}
+				yield return command;
 			}
 		}
 

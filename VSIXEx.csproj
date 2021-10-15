@@ -66,6 +66,7 @@
     <Compile Include="Attributes\KeyBindingAttribute.cs" />
     <Compile Include="BaseCommandSet.cs" />
     <Compile Include="BaseAsyncPackage.cs" />
+    <Compile Include="EnumCommandException.cs" />
     <Compile Include="Events\RunningDocTableEvents.cs" />
     <Compile Include="Events\VsCustomDebuggerEventHandler.cs" />
     <Compile Include="Events\VsDebuggerEvents.cs" />
