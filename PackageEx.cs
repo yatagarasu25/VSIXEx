@@ -106,7 +106,10 @@ namespace VSIXEx
 
 						try
 						{
-							ThreadHelper.JoinableTaskFactory.Run(() => command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, ea }) as Task);
+							ThreadHelper.JoinableTaskFactory.Run(async () => {
+								await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+								await (command.ExecuteCommand.Method.Invoke(commandSet, new object[] { (OleMenuCommand)s, ea }) as Task);
+							});
 						}
 						catch (Exception e)
 						{
